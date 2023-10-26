@@ -1,9 +1,13 @@
+import PropTypes from 'prop-types';
+
 import { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../../../pages/Home';
-import { Markup } from 'interweave';
 
 /* CSS */
 import './WeatherTop.css';
+import ForecastBox from './weathertop/ForecastBox';
+import DateBox from './weathertop/DateBox';
+import WeatherBox from './weathertop/WeatherBox';
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -26,7 +30,7 @@ const weatherImages = {
   },
 };
 
-const WeatherTop = () => {
+const WeatherTop = ({ onSetWrapperClass }) => {
   const [info, setInfo] = useState({});
 
   let data = useContext(DataContext);
@@ -71,6 +75,13 @@ const WeatherTop = () => {
     }
 
     setInfo({
+      time: new Date()
+        .toLocaleTimeString('en-US', {
+          hour12: false,
+          hour: 'numeric',
+          minute: 'numeric',
+        })
+        .concat(`${new Date().getHours() >= 12 ? ' PM' : ' AM'}`),
       day: new Date().getDate(),
       month: ('0' + (new Date().getMonth() + 1)).slice(-2),
       year: new Date().getFullYear(),
@@ -79,32 +90,27 @@ const WeatherTop = () => {
       svg,
       backgroundImageClass,
     });
-  }, [data.weatherData.weather]);
+
+    onSetWrapperClass(backgroundImageClass);
+  }, [data.weatherData.weather, onSetWrapperClass]);
 
   return (
     <>
       <article className={`weather-side ${info.backgroundImageClass} bg-style`}>
         <div className="weather-gradient"></div>
-        <div className="date-container">
-          <div>
-            <h2 className="date-dayname">{days[info.dayIndex]}</h2>
-            <span className="location">{info.time}</span>
-            <span className="date-day">
-              {info.month}/{info.day}/{info.year}
-            </span>
-            <span className="location">
-              {data.weatherData.name}, {data.weatherData.sys.country}
-            </span>
-          </div>
-          <div className="weather-svg">
-            <Markup content={info.svg} />
-            {data.weatherData.wind.speed >= 5 ? <Markup content={weatherImages.icons.windy} /> : ''}
-          </div>
-        </div>
-        <div className="weather-container">
-          <h1 className="weather-temp">{Math.floor(data.weatherData.main.temp)}°C </h1>
-          <h3 className="weather-desc">{data.weatherData.weather[0].description}</h3>
-        </div>
+        <DateBox
+          dayName={days[info.dayIndex]}
+          time={info.time}
+          date={`${info.month}/${info.day}/${info.year}`}
+          location={`${data.weatherData.name}, ${data.weatherData.sys.country}`}
+          svg={info.svg}
+          windSpeed={data.weatherData.wind.speed}
+          windySvg={weatherImages.icons.windy}
+        />
+        <WeatherBox
+          temp={Math.floor(data.weatherData.main.temp)}
+          description={data.weatherData.weather[0].description}
+        />
         <div className="forecast">
           {data.forecast &&
             data.forecast.list.map((val) => {
@@ -115,13 +121,14 @@ const WeatherTop = () => {
               ) {
                 dayCounter++;
                 return (
-                  <div key={crypto.randomUUID()}>
-                    <p>
-                      {info.month}/{info.day + dayCounter - 1}/{info.year}
-                    </p>
-                    <h2>{Math.floor(val.main.temp)}°C</h2>
-                    <p>{val.weather[0].description}</p>
-                  </div>
+                  <ForecastBox
+                    key={crypto.randomUUID()}
+                    month={info.month}
+                    day={info.day + dayCounter - 1}
+                    year={info.year}
+                    temp={Math.floor(val.main.temp)}
+                    description={val.weather[0].description}
+                  />
                 );
               } else {
                 return '';
@@ -131,6 +138,10 @@ const WeatherTop = () => {
       </article>
     </>
   );
+};
+
+WeatherTop.propTypes = {
+  onSetWrapperClass: PropTypes.func,
 };
 
 export default WeatherTop;

@@ -5,6 +5,8 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 import { useContext, useEffect, useState } from 'react';
 import './WeatherBottom.css';
 import { DataContext } from '../../../pages/Home';
+import LeftInfoBox from './weatherbottom/LeftInfoBox';
+import RightInfoBox from './weatherbottom/RightInfoBox';
 
 const WeatherBottom = () => {
   const [sun, setSun] = useState({});
@@ -25,25 +27,12 @@ const WeatherBottom = () => {
 
   return (
     <article className="info-side">
-      <div className="today-info">
-        <div className="precipitation">
-          <span className="title">Feels Like: </span>
-          <span className="value">{Math.floor(data.weatherData.main.feels_like)}°C</span>
-        </div>
-        <div className="humidity">
-          <span className="title">Humidity: </span>
-          <span className="value">{data.weatherData.main.humidity}%</span>
-        </div>
-        <div className="wind">
-          <span className="title">Wind Speed: </span>
-          <span className="value">{data.weatherData.wind.speed} km/h</span>
-        </div>
-        <div className="wind">
-          <span className="title">Pressure: </span>
-          <span className="value">{data.weatherData.main.pressure} hPa</span>
-        </div>
-      </div>
-      {/* <div id="map"></div> */}
+      <LeftInfoBox
+        feelsLike={Math.floor(data.weatherData.main.feels_like)}
+        humidity={data.weatherData.main.humidity}
+        windSpeed={data.weatherData.wind.speed}
+        pressure={data.weatherData.main.pressure}
+      />
       <MapContainer
         center={[data.coords.lan, data.coords.lon]}
         zoom={mapZoomLevel}
@@ -55,28 +44,12 @@ const WeatherBottom = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
       </MapContainer>
-      <article className="today-info">
-        <div className="precipitation">
-          <span className="title">Sunrise: </span>
-          <span className="value">
-            {sun.riseHours}:{sun.riseMinutes}:{sun.sunriseSeconds}
-          </span>
-        </div>
-        <div className="humidity">
-          <span className="title">Sunset: </span>
-          <span className="value">
-            {sun.sunsetHours}:{sun.sunsetMinutes}:{sun.sunsetSeconds}
-          </span>
-        </div>
-        <div className="wind">
-          <span className="title">Min Temperature: </span>
-          <span className="value">{Math.floor(data.weatherData.main.temp_min)}°C</span>
-        </div>
-        <div className="wind">
-          <span className="title">Max Temperatur: </span>
-          <span className="value">{Math.floor(data.weatherData.main.temp_max)}°C</span>
-        </div>
-      </article>
+      <RightInfoBox
+        sunRise={`${sun.riseHours}:${sun.riseMinutes}:${sun.sunriseSeconds}`}
+        sunSet={` ${sun.sunsetHours}:${sun.sunsetMinutes}:${sun.sunsetSeconds}`}
+        minTemp={Math.floor(data.weatherData.main.temp_min)}
+        maxTemp={Math.floor(data.weatherData.main.temp_max)}
+      />
     </article>
   );
 };

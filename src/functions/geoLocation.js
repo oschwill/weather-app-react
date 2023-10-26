@@ -14,7 +14,22 @@ export const checkLocationIsActivated = async () => {
   return returnBool;
 };
 
-export const getUserPosition = async (position, setOutputData) => {
+export const getUserPosition = async (position, setOutputData, inputData, setHasGeoLocation) => {
+  if (!position) {
+    // Fetch City Geo
+    let getCityData = await getDataByParam({
+      url: `http://api.openweathermap.org/geo/1.0/direct?q=${inputData}&limit=10&appid=${apiKey}`,
+      errorMsg: 'Error beim Holen der City',
+    });
+
+    position = {
+      coords: {
+        latitude: getCityData[0].lat,
+        longitude: getCityData[0].lon,
+      },
+    };
+  }
+
   // get Data
   let weatherData = await getDataByParam({
     url: `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&appid=${apiKey}`,
@@ -28,6 +43,8 @@ export const getUserPosition = async (position, setOutputData) => {
   });
 
   if (weatherData && forecast) {
+    setHasGeoLocation(true);
+
     setOutputData({
       weatherData,
       forecast,
@@ -39,7 +56,7 @@ export const getUserPosition = async (position, setOutputData) => {
   }
 };
 
-const getDataByParam = async (fetchObj) => {
+export const getDataByParam = async (fetchObj) => {
   return fetch(fetchObj.url)
     .then((response) => response.json())
     .then((data) => data)

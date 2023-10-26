@@ -11,35 +11,41 @@ const Home = () => {
   const [hasGeoLocation, setHasGeoLocation] = useState(false);
   const [outputData, setOutputData] = useState(null);
   const [inputData, setInputData] = useState('');
+  const [clue, setClue] = useState(false);
+  const [wrapperClass, setWrapperClass] = useState('');
 
   useEffect(() => {
-    // const returnBool = checkLocationIsActivated();
     checkLocationIsActivated().then((hasGeo) => {
-      setHasGeoLocation(hasGeo);
+      setClue(true);
 
-      if (!hasGeoLocation) {
+      if (!hasGeo) {
         return;
       }
 
       navigator.geolocation.getCurrentPosition(function (position) {
-        getUserPosition(position, setOutputData);
-        setHasGeoLocation(true);
+        getUserPosition(position, setOutputData, null, setHasGeoLocation);
+        setClue(false);
       });
     });
-  }, [hasGeoLocation]);
+  }, []);
 
-  const handleUserInput = (event) => {
+  const handleUserInput = async (event) => {
     event.preventDefault();
-    //
+    setHasGeoLocation(false);
+
+    // no data
     if (inputData === '') {
       console.log('no input');
       return;
     }
-    console.log(event.target.value);
+
+    getUserPosition(null, setOutputData, inputData, setHasGeoLocation);
   };
 
+  const handleWrapperClass = (value) => setWrapperClass(value);
+
   return (
-    <div id="wrapper">
+    <div id="wrapper" className={`bg-style ${wrapperClass ? wrapperClass : ''} `}>
       <main>
         <h1 className="intro">Weather App</h1>
         <section className="container">
@@ -50,13 +56,13 @@ const Home = () => {
           />
           {!hasGeoLocation && (
             <div>
-              <Clue />
+              {clue && <Clue />}
               <Loader />
             </div>
           )}
           {hasGeoLocation && outputData && (
             <DataContext.Provider value={outputData}>
-              <WeatherOutput />
+              <WeatherOutput onSetWrapperClass={handleWrapperClass} />
             </DataContext.Provider>
           )}
         </section>

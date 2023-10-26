@@ -117,3 +117,7 @@
 .weather-desc {
   margin: 0;
 }
+
+.weather-svg span {
+  padding-left: 10px;
+}
