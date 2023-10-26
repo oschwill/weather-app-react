@@ -1,0 +1,109 @@
+.info-side {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  height: 30vh;
+  font-size: 1.2rem;
+}
+
+.today-info {
+  padding: 15px;
+  margin: 0 25px 25px 25px;
+  border-radius: 10px;
+  border-right: 1px solid rgb(255, 255, 255);
+  border-left: 1px solid rgb(255, 255, 255);
+  animation: fade-weather 0.75s linear 0s 1;
+}
+
+.today-info > div:not(:last-child) {
+  margin: 0 0 10px 0;
+}
+
+.today-info > div .title {
+  float: left;
+  font-weight: 700;
+}
+
+.today-info > div .value {
+  padding-left: 5px;
+}
+
+.week-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 10px 35px;
+  -webkit-box-shadow: 0 0 50px -5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 50px -5px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.week-list > li {
+  float: left;
+  padding: 15px;
+  cursor: pointer;
+  -webkit-transition: 200ms ease;
+  -o-transition: 200ms ease;
+  transition: 200ms ease;
+  border-radius: 10px;
+}
+
+.week-list > li:hover {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+  background: #fff;
+  color: #222831;
+  -webkit-box-shadow: 0 0 40px -5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 40px -5px rgba(0, 0, 0, 0.2);
+}
+
+.week-list > li.active {
+  background: #fff;
+  color: #222831;
+  border-radius: 10px;
+}
+
+.week-list > li .day-name {
+  display: block;
+  margin: 10px 0 0 0;
+  text-align: center;
+}
+
+.week-list > li .day-icon {
+  display: block;
+  height: 30px;
+  width: auto;
+  margin: 0 auto;
+}
+
+.week-list > li .day-temp {
+  display: block;
+  text-align: center;
+  margin: 10px 0 0 0;
+  font-weight: 700;
+}
+
+#map {
+  width: 38%;
+  animation: fade-map 0.75s linear 0s 1;
+}
+
+@keyframes fade-weather {
+  from {
+    transform: translateX(-5000px);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-map {
+  from {
+    left: 2000px;
+  }
+
+  to {
+    left: 0;
+  }
+}

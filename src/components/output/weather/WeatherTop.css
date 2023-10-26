@@ -1,0 +1,119 @@
+.weather-side {
+  position: relative;
+  height: 100%;
+  border-radius: 25px;
+  background-size: cover;
+  width: 100%;
+  animation: fade-weather 0.75s linear 0s 1;
+}
+
+.sunny-weather {
+  background-image: url('https://www.wagrain24.at/images/galerie/2018/10-04_jaegersee_kleinarl/big/Jaegersee_Kleinarl_20181004_04.jpg');
+}
+
+.rainy-weather {
+  background-image: url('../../../assets/images/rainy.jpg');
+}
+
+.cloudy-weather {
+  background-image: url('../../../assets/images/cloudy.jpeg');
+}
+
+.snowy-weather {
+  background-image: url('https://images8.alphacoders.com/861/861868.jpg');
+}
+
+.misty-weather {
+  background-image: url('https://pheisig.de/assets/img/2019_kw09_lilienstein/nebellandschaft.jpg');
+}
+
+.bg-style {
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.forecast {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+}
+
+.forecast div {
+  background-color: rgba(156, 152, 152, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+  width: 150px;
+}
+
+.forecast div p {
+  word-wrap: break-word;
+}
+
+.forecast div > * {
+  text-align: center;
+  padding: 2px;
+}
+
+.weather-gradient {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: var(--gradient);
+  border-radius: 25px;
+  opacity: 0.8;
+}
+
+.date-container {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 10px;
+  left: 25px;
+  gap: 10%;
+  width: 100%;
+}
+
+.date-container div {
+  font-size: 2.5rem;
+}
+
+.date-dayname {
+  margin: 0;
+}
+
+.date-day {
+  display: block;
+}
+
+.location {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.location-icon {
+  display: inline-block;
+  height: 0.8em;
+  width: auto;
+  margin-right: 5px;
+}
+
+.weather-container {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+}
+
+.weather-temp {
+  margin: 0;
+  font-weight: 700;
+  font-size: 4em;
+}
+
+.weather-desc {
+  margin: 0;
+}
