@@ -18,7 +18,7 @@ export const getUserPosition = async (position, setOutputData, inputData, setHas
   if (!position) {
     // Fetch City Geo
     let getCityData = await getDataByParam({
-      url: `http://api.openweathermap.org/geo/1.0/direct?q=${inputData}&limit=10&appid=${apiKey}`,
+      url: `https://api.openweathermap.org/geo/1.0/direct?q=${inputData}&limit=10&appid=${apiKey}`,
       errorMsg: 'Error beim Holen der City',
     });
 
@@ -38,7 +38,7 @@ export const getUserPosition = async (position, setOutputData, inputData, setHas
 
   // // Fetch Forecast
   let forecast = await getDataByParam({
-    url: `http://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&appid=${apiKey}`,
+    url: `https://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&appid=${apiKey}`,
     errorMsg: 'Error beim Holen der Forecasts',
   });
 
