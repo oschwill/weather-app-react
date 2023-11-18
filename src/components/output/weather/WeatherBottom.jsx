@@ -45,7 +45,7 @@ const WeatherBottom = () => {
         />
       </MapContainer>
       <RightInfoBox
-        sunRise={`${sun.riseHours}:${sun.riseMinutes}:${sun.sunriseSeconds}`}
+        sunRise={`${sun.riseHours}:${sun.riseMinutes}:${sun.riseSeconds}`}
         sunSet={` ${sun.sunsetHours}:${sun.sunsetMinutes}:${sun.sunsetSeconds}`}
         minTemp={Math.floor(data.weatherData.main.temp_min)}
         maxTemp={Math.floor(data.weatherData.main.temp_max)}
